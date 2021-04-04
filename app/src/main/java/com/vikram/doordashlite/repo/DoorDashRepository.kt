@@ -9,10 +9,10 @@ import io.reactivex.rxjava3.core.Single
  */
 class DoorDashRepository(private val api: DoorDashApi) {
     companion object {
-        private const val DEFAULT_LAT = 37.422740
-        private const val DEFAULT_LNG = 37.422740
-        private const val DEFAULT_OFFSET = 0
-        private const val DEFAULT_LIMIT = 50
+        internal const val DEFAULT_LAT = 37.422740
+        internal const val DEFAULT_LNG = 37.422740
+        internal const val DEFAULT_OFFSET = 0
+        internal const val DEFAULT_LIMIT = 50
     }
 
     fun getStoreFeed(

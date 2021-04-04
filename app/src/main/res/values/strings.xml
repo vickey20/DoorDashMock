@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DoorDashLite</string>
+    <string name="error_store_feed">Failed to get stores</string>
 </resources>

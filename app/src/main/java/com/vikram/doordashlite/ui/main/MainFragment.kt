@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vikram.doordashlite.R
+import com.vikram.doordashlite.network.DoorDashApi
+import com.vikram.doordashlite.network.NetworkClient
+import com.vikram.doordashlite.repo.DoorDashRepository
 
 class MainFragment : Fragment() {
 
@@ -15,6 +18,7 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private val repository = DoorDashRepository(NetworkClient.getApiServiceFor(DoorDashApi::class.java))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -23,7 +27,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
