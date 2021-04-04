@@ -15,10 +15,10 @@ import retrofit2.http.Query
 interface DoorDashApi {
     @GET(STORE_FEED)
     fun getStoreFeed(
-        @Query("lat") lat: String,
-        @Query("lng") lng: String,
-        @Query("offset") offset: String,
-        @Query("limit") limit: String
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): Single<StoreFeed>
 
     @GET("$RESTAURANT_DETAIL/{id}")
