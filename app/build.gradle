@@ -3,6 +3,18 @@ plugins {
     id 'kotlin-android'
 }
 
+def configProperties = new Properties()
+configProperties.load(new FileInputStream(rootProject.file("config.properties")))
+
+def baseUrlKey = "BASE_URL"
+def baseUrlValue = configProperties[baseUrlKey]
+
+def storeFeedKey = "STORE_FEED"
+def storeFeedValue = configProperties[storeFeedKey]
+
+def restaurantDetailKey = "RESTAURANT_DETAIL"
+def restaurantDetailValue = configProperties[restaurantDetailKey]
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -18,6 +30,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", baseUrlKey, baseUrlValue
+            buildConfigField "String", storeFeedKey, storeFeedValue
+            buildConfigField "String", restaurantDetailKey, restaurantDetailValue
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
