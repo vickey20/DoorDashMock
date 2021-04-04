@@ -3,7 +3,7 @@ package com.vikram.doordashlite.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vikram.doordashlite.R
-import com.vikram.doordashlite.model.StoreFeed
+import com.vikram.doordashlite.model.Store
 import com.vikram.doordashlite.repo.DoorDashRepository
 import com.vikram.doordashlite.repo.DoorDashRepository.Companion.DEFAULT_LAT
 import com.vikram.doordashlite.repo.DoorDashRepository.Companion.DEFAULT_LIMIT
@@ -17,7 +17,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-    val storeFeedLiveData = MutableLiveData<StoreFeed>()
+    val storesLiveData = MutableLiveData<List<Store>>()
     val loadingLiveData = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<Int>()
 
@@ -36,7 +36,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({
                     loadingLiveData.value = false
-                    storeFeedLiveData.value = it
+                    storesLiveData.value = it.stores
                 }, {
                     loadingLiveData.value = false
                     errorLiveData.value = R.string.error_store_feed
