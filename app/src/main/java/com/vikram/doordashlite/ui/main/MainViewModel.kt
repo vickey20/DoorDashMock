@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vikram.doordashlite.R
 import com.vikram.doordashlite.model.Store
+import com.vikram.doordashlite.model.StoreDetail
 import com.vikram.doordashlite.repo.DoorDashRepository
 import com.vikram.doordashlite.repo.DoorDashRepository.Companion.DEFAULT_LAT
 import com.vikram.doordashlite.repo.DoorDashRepository.Companion.DEFAULT_LIMIT
@@ -21,7 +22,14 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
     val loadingLiveData = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<Int>()
 
-    var currentStore: Store? = null
+    val storeDetailLiveData = MutableLiveData<StoreDetail?>()
+    val storeDetailLoadingLiveData = MutableLiveData<Boolean>()
+    val storeDetailErrorLiveData = MutableLiveData<Int>()
+
+    var selectedPosition: Int? = null
+    fun getCurrentStoreId(): Int? {
+        return storesLiveData.value?.let { stores -> selectedPosition?.let { stores[it].id } }
+    }
 
     fun getStoreFeed(
         lat: Double = DEFAULT_LAT,
@@ -44,6 +52,36 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
                     errorLiveData.value = R.string.error_store_feed
                 })
         )
+    }
+
+    fun getStoreDetail(id: Int) {
+        storeDetailLiveData.value = null
+        disposables.add(
+            repository.getStoreDetail(id)
+                .doOnSubscribe {
+                    storeDetailLoadingLiveData.postValue(true)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({
+                    storeDetailLoadingLiveData.value = false
+                    storeDetailLiveData.value = processStoreDetail(it)
+                }, {
+                    storeDetailLoadingLiveData.value = false
+                    storeDetailErrorLiveData.value = R.string.error_store_feed
+                })
+        )
+    }
+
+    private fun processStoreDetail(storeDetail: StoreDetail): StoreDetail {
+        storesLiveData.value?.let { stores ->
+            selectedPosition?.let { position ->
+                storeDetail.name = stores[position].name
+                storeDetail.menus = stores[position].menus
+                storeDetail.distance = stores[position].getDistanceString()
+            }
+        }
+        return storeDetail
     }
 
     override fun onCleared() {

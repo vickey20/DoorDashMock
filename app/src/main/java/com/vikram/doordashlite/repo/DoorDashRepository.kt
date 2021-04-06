@@ -1,5 +1,6 @@
 package com.vikram.doordashlite.repo
 
+import com.vikram.doordashlite.model.StoreDetail
 import com.vikram.doordashlite.model.StoreFeed
 import com.vikram.doordashlite.network.DoorDashApi
 import io.reactivex.rxjava3.core.Single
@@ -22,5 +23,11 @@ class DoorDashRepository(private val api: DoorDashApi) {
         limit: Int = DEFAULT_LIMIT
     ): Single<StoreFeed> {
         return api.getStoreFeed(lat, lng, offset, limit)
+    }
+
+    fun getStoreDetail(
+        id: Int
+    ): Single<StoreDetail> {
+        return api.getStoreDetail(id)
     }
 }

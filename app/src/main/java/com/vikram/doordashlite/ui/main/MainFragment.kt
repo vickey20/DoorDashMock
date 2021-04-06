@@ -26,7 +26,8 @@ class MainFragment : Fragment() {
     private val repository = DoorDashRepository(NetworkClient.getApiServiceFor(DoorDashApi::class.java))
 
     private val adapter = StoreFeedAdapter {
-        viewModel.currentStore = it
+        viewModel.selectedPosition = it
+        (activity as MainActivity).showDetailView()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,13 +47,14 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         setupRecyclerView()
 
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
         viewModel.storesLiveData.observe(viewLifecycleOwner) { adapter.updateList(it) }
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.loading.visibility = if (it) View.VISIBLE else View.GONE
-        }
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_LONG).show()
         }

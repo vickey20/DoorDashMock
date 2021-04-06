@@ -3,6 +3,7 @@ package com.vikram.doordashlite.network
 import com.vikram.doordashlite.BuildConfig.RESTAURANT_DETAIL
 import com.vikram.doordashlite.BuildConfig.STORE_FEED
 import com.vikram.doordashlite.model.Store
+import com.vikram.doordashlite.model.StoreDetail
 import com.vikram.doordashlite.model.StoreFeed
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
@@ -24,5 +25,5 @@ interface DoorDashApi {
     @GET("$RESTAURANT_DETAIL/{id}")
     fun getStoreDetail(
         @Path("id") id: Int
-    ): Single<Store>
+    ): Single<StoreDetail>
 }

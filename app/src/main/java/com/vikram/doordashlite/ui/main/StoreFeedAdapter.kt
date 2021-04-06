@@ -11,11 +11,10 @@ import com.vikram.doordashlite.model.Store
 /**
  *   Created by vikram.gupta on 4/4/21.
  */
-class StoreFeedAdapter(private val onItemClick: (Store) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StoreFeedAdapter(private val onItemClick: (Int) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val stores = mutableListOf<Store>()
 
     fun updateList(@NonNull stores: List<Store>) {
-        Log.d("Adapter", "update")
         this.stores.clear()
         this.stores.addAll(stores)
         notifyDataSetChanged()
@@ -31,7 +30,7 @@ class StoreFeedAdapter(private val onItemClick: (Store) -> Unit): RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return StoreViewHolder(StoreItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)) {
-            onItemClick(stores[it])
+            onItemClick(it)
         }
     }
 
