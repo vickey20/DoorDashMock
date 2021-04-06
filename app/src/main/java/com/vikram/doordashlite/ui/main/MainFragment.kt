@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vikram.doordashlite.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.vikram.doordashlite.MainActivity
+import com.vikram.doordashlite.databinding.MainFragmentBinding
 import com.vikram.doordashlite.network.DoorDashApi
 import com.vikram.doordashlite.network.NetworkClient
 import com.vikram.doordashlite.repo.DoorDashRepository
@@ -17,18 +20,51 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
+    private lateinit var binding: MainFragmentBinding
+
     private lateinit var viewModel: MainViewModel
     private val repository = DoorDashRepository(NetworkClient.getApiServiceFor(DoorDashApi::class.java))
 
+    private val adapter = StoreFeedAdapter {
+        viewModel.currentStore = it
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity(), MainViewModelFactory(repository)).get(MainViewModel::class.java)
+        if (savedInstanceState == null) {
+            viewModel.getStoreFeed()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding =  MainFragmentBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+
+        viewModel.storesLiveData.observe(viewLifecycleOwner) { adapter.updateList(it) }
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.loading.visibility = if (it) View.VISIBLE else View.GONE
+        }
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_LONG).show()
+        }
     }
 
+    private fun setupRecyclerView() {
+        if (binding.recyclerView.layoutManager == null) {
+            binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        }
+
+        if (binding.recyclerView.adapter != adapter) {
+            binding.recyclerView.adapter = adapter
+        }
+    }
 }

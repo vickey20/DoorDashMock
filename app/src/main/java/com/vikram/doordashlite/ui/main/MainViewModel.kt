@@ -21,6 +21,8 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
     val loadingLiveData = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<Int>()
 
+    var currentStore: Store? = null
+
     fun getStoreFeed(
         lat: Double = DEFAULT_LAT,
         lng: Double = DEFAULT_LNG,
@@ -30,7 +32,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
         disposables.add(
             repository.getStoreFeed(lat, lng, offset, limit)
                 .doOnSubscribe {
-                    loadingLiveData.value = true
+                    loadingLiveData.postValue(true)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
