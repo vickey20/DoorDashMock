@@ -33,7 +33,7 @@ class StoreDetailAdapter(val onMenuItemClick: (menuItem: StoreMenuItem?) -> Unit
     inner class MenuItemViewHolder(val binding: MenuItemLayoutBinding, onItemClick: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
-                onItemClick(adapterPosition)
+                onItemClick(adapterPosition - 2)
             }
         }
     }
@@ -74,12 +74,16 @@ class StoreDetailAdapter(val onMenuItemClick: (menuItem: StoreMenuItem?) -> Unit
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
-            STORE_DETAIL
-        } else if (position == 1) {
-            MENU_HEADER
-        } else {
-            MENU_ITEM
+        return when (position) {
+            0 -> {
+                STORE_DETAIL
+            }
+            1 -> {
+                MENU_HEADER
+            }
+            else -> {
+                MENU_ITEM
+            }
         }
     }
 }
