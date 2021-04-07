@@ -79,6 +79,13 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
                 storeDetail.name = stores[position].name
                 storeDetail.menus = stores[position].menus
                 storeDetail.distance = stores[position].getDistanceString()
+                if (storeDetail.headerImgUrl.isNullOrBlank()) {
+                    if (stores[position].headerImgUrl.isNullOrBlank()) {
+                        storeDetail.headerImgUrl = stores[position].coverImgUrl
+                    } else {
+                        storeDetail.headerImgUrl = stores[position].headerImgUrl
+                    }
+                }
             }
         }
         return storeDetail

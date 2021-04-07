@@ -35,7 +35,7 @@
 
                     <ImageView
                         android:id="@+id/image"
-                        bind:url="@{viewModel.storeDetailLiveData.coverImgUrl}"
+                        bind:url="@{viewModel.storeDetailLiveData.headerImgUrl}"
                         bind:loading="@{@drawable/loading_animation}"
                         bind:error="@{@drawable/broken_image}"
                         android:layout_width="match_parent"

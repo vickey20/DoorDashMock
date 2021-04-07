@@ -21,6 +21,8 @@ data class Store(
     val description: String,
     @SerializedName("cover_img_url")
     val coverImgUrl: String,
+    @SerializedName("header_img_url")
+    val headerImgUrl: String?,
     val status: Status,
     val menus: List<StoreMenu>,
     @SerializedName("display_delivery_fee")
@@ -78,7 +80,7 @@ data class StoreDetail(
     @SerializedName("price_range")
     val priceRange: Int,
     @SerializedName("header_img_url")
-    val headerImgUrl: String,
+    var headerImgUrl: String?,
     var menus: List<StoreMenu>,
     @SerializedName("average_rating")
     val averageRating: Double,

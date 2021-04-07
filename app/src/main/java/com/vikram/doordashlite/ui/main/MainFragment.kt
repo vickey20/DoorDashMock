@@ -47,6 +47,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).setToolbar(binding.toolbar)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         setupRecyclerView()
