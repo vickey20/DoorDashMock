@@ -22,7 +22,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
     val loadingLiveData = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<Int>()
 
-    val storeDetailLiveData = MutableLiveData<StoreDetail?>()
+    val storeDetailLiveData = MutableLiveData<StoreDetail>()
     val storeDetailLoadingLiveData = MutableLiveData<Boolean>()
     val storeDetailErrorLiveData = MutableLiveData<Int>()
 
@@ -55,7 +55,6 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
     }
 
     fun getStoreDetail(id: Int) {
-        storeDetailLiveData.value = null
         disposables.add(
             repository.getStoreDetail(id)
                 .doOnSubscribe {

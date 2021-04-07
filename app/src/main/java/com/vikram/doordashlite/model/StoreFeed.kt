@@ -54,7 +54,12 @@ data class StoreMenuItem (
     val description: String,
     val name: String,
     val id: Long
-)
+) {
+    fun getPrice(): String {
+        val df = DecimalFormat("#.##")
+        return df.format(price.toDouble() / 100)
+    }
+}
 
 data class Status(
     @SerializedName("asap_minutes_range")

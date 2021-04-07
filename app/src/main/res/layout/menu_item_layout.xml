@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="store"
-            type="com.vikram.doordashlite.model.Store" />
+            name="menuItem"
+            type="com.vikram.doordashlite.model.StoreMenuItem" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,31 +20,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                app:url="@{store.coverImgUrl}"
-                app:error="@{@drawable/broken_image}"
-                app:loading="@{@drawable/loading_animation}"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedImageView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/store_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{store.name}"
-                android:textStyle="bold"
-                android:textSize="16sp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
+                android:text="@{menuItem.name}"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/store_description"
-                app:layout_constraintStart_toEndOf="@id/image"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/menu_image"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
@@ -53,28 +40,45 @@
                 android:id="@+id/store_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text='@{store.description ?? ""}'
-                android:textStyle="normal"
-                android:textSize="14sp"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{menuItem.description}"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/eta"
+                app:layout_constraintEnd_toStartOf="@id/menu_image"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/store_name" />
 
             <TextView
                 android:id="@+id/eta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text='@{store.status.eta ?? "Hello"}'
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:text="@{@string/price(menuItem.price)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/menu_image"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/store_description" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/menu_image"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:layout_width="120dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_description"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:url="@{menuItem.imgUrl}"
+                app:loading="@{@drawable/loading_animation}"
+                app:error="@{@drawable/broken_image}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

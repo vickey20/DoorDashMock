@@ -6,4 +6,6 @@
     <string name="ratings">%1$s+ ratings</string>
     <string name="priceRange">• %1$s</string>
     <string name="pickup">• Pickup</string>
+    <string name="price">$%1$s</string>
+    <string name="popular_items">Popular Items</string>
 </resources>

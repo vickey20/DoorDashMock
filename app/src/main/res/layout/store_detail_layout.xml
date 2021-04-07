@@ -5,130 +5,116 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="viewModel"
-            type="com.vikram.doordashlite.ui.main.MainViewModel" />
+            name="storeDetail"
+            type="com.vikram.doordashlite.model.StoreDetail" />
     </data>
-    <androidx.core.widget.NestedScrollView
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="@{viewModel.storeDetailLoadingLiveData ? View.GONE : View.VISIBLE}"
-        android:fillViewport="true"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:layout_margin="8dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/store_description"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{storeDetail.description}"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="@dimen/cardview_default_elevation"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="true">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:layout_margin="8dp">
+            <TextView
+                android:id="@+id/averageRating"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{storeDetail.averageRating}"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                android:paddingEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/store_description"
+                app:layout_constraintTop_toBottomOf="@+id/store_description" />
 
-                    <TextView
-                        android:id="@+id/store_description"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.storeDetailLiveData.description}"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/starImage"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_baseline_star_rate_24"
+                android:paddingEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/averageRating"
+                app:layout_constraintTop_toTopOf="@id/averageRating"
+                app:layout_constraintStart_toEndOf="@id/averageRating" />
 
-                    <TextView
-                        android:id="@+id/averageRating"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@{viewModel.storeDetailLiveData.averageRating}"
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:ellipsize="end"
-                        android:paddingEnd="4dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/store_description"
-                        app:layout_constraintTop_toBottomOf="@+id/store_description" />
+            <TextView
+                android:id="@+id/numRatings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text='@{@string/ratings(storeDetail.numRatings)}'
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/starImage" />
 
-                    <ImageView
-                        android:id="@+id/starImage"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_baseline_star_rate_24"
-                        android:paddingEnd="4dp"
-                        app:layout_constraintBottom_toBottomOf="@id/averageRating"
-                        app:layout_constraintTop_toTopOf="@id/averageRating"
-                        app:layout_constraintStart_toEndOf="@id/averageRating" />
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text='@{@string/distance(storeDetail.distance)}'
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/numRatings" />
 
-                    <TextView
-                        android:id="@+id/numRatings"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
-                        android:text='@{@string/ratings(viewModel.storeDetailLiveData.numRatings)}'
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:ellipsize="end"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/starImage" />
+            <TextView
+                android:id="@+id/priceRange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text='@{@string/priceRange(storeDetail.priceRangeSymbol)}'
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/distance" />
 
-                    <TextView
-                        android:id="@+id/distance"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
-                        android:text='@{@string/distance(viewModel.storeDetailLiveData.distance)}'
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:ellipsize="end"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/numRatings" />
-
-                    <TextView
-                        android:id="@+id/priceRange"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
-                        android:text='@{@string/priceRange(viewModel.storeDetailLiveData.priceRangeSymbol)}'
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:ellipsize="end"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/distance" />
-
-                    <TextView
-                        android:id="@+id/pickup"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="4dp"
-                        android:text="@string/pickup"
-                        android:visibility="@{viewModel.storeDetailLiveData.offersPickup ? View.VISIBLE : View.GONE }"
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:ellipsize="end"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/priceRange" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+            <TextView
+                android:id="@+id/pickup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text="@string/pickup"
+                android:visibility="@{storeDetail.offersPickup ? View.VISIBLE : View.GONE }"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/priceRange" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

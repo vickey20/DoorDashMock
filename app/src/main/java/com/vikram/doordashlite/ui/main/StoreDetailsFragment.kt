@@ -2,12 +2,14 @@ package com.vikram.doordashlite.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.vikram.doordashlite.MainActivity
 import com.vikram.doordashlite.databinding.StoreDetailsFragmentBinding
@@ -23,6 +25,10 @@ class StoreDetailsFragment: Fragment() {
 
     private lateinit var binding: StoreDetailsFragmentBinding
     private lateinit var viewModel: MainViewModel
+
+    private val adapter = StoreDetailAdapter {
+        Log.d("StoreDetailsFragment", "Clicked menu: $it")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +51,24 @@ class StoreDetailsFragment: Fragment() {
         (activity as MainActivity).setToolbar(binding.storeDetailToolbar)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        setupRecyclerView()
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.storeDetailLiveData.observe(viewLifecycleOwner) { adapter.updateList(it, it.menus[0].popularItems) }
         viewModel.storeDetailErrorLiveData.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        if (binding.recyclerView.layoutManager == null) {
+            binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        }
+
+        if (binding.recyclerView.adapter != adapter) {
+            binding.recyclerView.adapter = adapter
         }
     }
 

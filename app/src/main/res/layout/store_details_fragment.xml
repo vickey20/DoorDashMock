@@ -69,8 +69,11 @@
             android:visibility="@{viewModel.storeDetailLoadingLiveData ? View.VISIBLE : View.GONE}"
             android:layout_gravity="center" />
 
-        <include
-            layout="@layout/store_detail_layout"
-            bind:viewModel="@{viewModel}"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.storeDetailLoadingLiveData ? View.GONE : View.VISIBLE}"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
