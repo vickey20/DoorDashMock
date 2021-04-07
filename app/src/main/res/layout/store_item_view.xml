@@ -28,7 +28,7 @@
                 app:url="@{store.coverImgUrl}"
                 app:error="@{@drawable/broken_image}"
                 app:loading="@{@drawable/loading_animation}"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 app:shapeAppearanceOverlay="@style/roundedImageView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
