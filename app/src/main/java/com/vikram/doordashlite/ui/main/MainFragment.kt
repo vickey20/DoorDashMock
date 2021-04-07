@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
     private val repository = DoorDashRepository(NetworkClient.getApiServiceFor(DoorDashApi::class.java))
 
     private val adapter = StoreFeedAdapter {
-        viewModel.selectedPosition = it
+        viewModel.currentPosition = it
         (activity as MainActivity).showDetailView()
     }
 

@@ -10,6 +10,7 @@
             type="com.vikram.doordashlite.ui.main.MainViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,6 +23,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"

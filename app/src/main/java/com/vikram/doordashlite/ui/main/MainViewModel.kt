@@ -26,9 +26,13 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
     val storeDetailLoadingLiveData = MutableLiveData<Boolean>()
     val storeDetailErrorLiveData = MutableLiveData<Int>()
 
-    var selectedPosition: Int? = null
+    var currentPosition: Int? = null
     fun getCurrentStoreId(): Int? {
-        return storesLiveData.value?.let { stores -> selectedPosition?.let { stores[it].id } }
+        return storesLiveData.value?.let { stores -> currentPosition?.let { stores[it].id } }
+    }
+
+    fun getCurrentStore(): Store? {
+        return currentPosition?.let { storesLiveData.value?.get(it) }
     }
 
     fun getStoreFeed(
@@ -74,7 +78,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
 
     private fun processStoreDetail(storeDetail: StoreDetail): StoreDetail {
         storesLiveData.value?.let { stores ->
-            selectedPosition?.let { position ->
+            currentPosition?.let { position ->
                 storeDetail.name = stores[position].name
                 storeDetail.menus = stores[position].menus
                 storeDetail.distance = stores[position].getDistanceString()

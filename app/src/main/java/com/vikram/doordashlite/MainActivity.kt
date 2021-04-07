@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val mainFragment = MainFragment.newInstance()
-    private val detailFragment = StoreDetailsFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                     R.anim.fade_in,
                     R.anim.slide_out
                 )
-                .replace(R.id.container, detailFragment)
+                .replace(R.id.container, StoreDetailsFragment.newInstance())
                 .addToBackStack(DETAIL_FRAGMENT)
                 .commit()
     }

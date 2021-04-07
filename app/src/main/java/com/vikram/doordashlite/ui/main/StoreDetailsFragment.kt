@@ -50,6 +50,7 @@ class StoreDetailsFragment: Fragment() {
         setHasOptionsMenu(true)
         (activity as MainActivity).setToolbar(binding.storeDetailToolbar)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as MainActivity).supportActionBar?.title = binding.viewModel?.getCurrentStore()?.name
 
         setupRecyclerView()
 
