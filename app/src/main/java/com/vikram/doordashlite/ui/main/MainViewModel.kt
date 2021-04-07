@@ -71,7 +71,7 @@ class MainViewModel(private val repository: DoorDashRepository) : ViewModel() {
                     storeDetailLiveData.value = processStoreDetail(it)
                 }, {
                     storeDetailLoadingLiveData.value = false
-                    storeDetailErrorLiveData.value = R.string.error_store_feed
+                    storeDetailErrorLiveData.value = R.string.error_store_detail
                 })
         )
     }

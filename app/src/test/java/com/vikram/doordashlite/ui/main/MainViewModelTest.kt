@@ -3,6 +3,7 @@ package com.vikram.doordashlite.ui.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.vikram.doordashlite.*
 import com.vikram.doordashlite.model.Store
+import com.vikram.doordashlite.model.StoreDetail
 import com.vikram.doordashlite.model.StoreFeed
 import com.vikram.doordashlite.repo.DoorDashRepository
 import io.reactivex.rxjava3.core.Single
@@ -94,5 +95,82 @@ class MainViewModelTest {
         val errorObserver = viewModel.errorLiveData.testObserver()
         viewModel.getStoreFeed(DEFAULT_LAT, DEFAULT_LNG, DEFAULT_OFFSET, DEFAULT_LIMIT)
         assertEquals(listOf(R.string.error_store_feed), errorObserver.observedValues)
+    }
+
+    @Test
+    fun shouldUpdateStoreDetailLiveDataOnSuccess() {
+        val mockedStoreDetail = mock(StoreDetail::class.java)
+        `when`(repository.getStoreDetail(
+                any(Int::class.java),
+        )).thenReturn(
+                Single.just(mockedStoreDetail)
+        )
+
+        val storeDetailObserver = viewModel.storeDetailLiveData.testObserver()
+        viewModel.getStoreDetail(1001)
+        assertEquals(listOf(mockedStoreDetail), storeDetailObserver.observedValues)
+    }
+
+    @Test
+    fun shouldUpdateStoreDetailLoadingLiveDataWhenLoading() {
+        val mockedStoreDetail = mock(StoreDetail::class.java)
+        `when`(repository.getStoreDetail(
+                any(Int::class.java),
+        )).thenReturn(
+                Single.just(mockedStoreDetail)
+        )
+
+        val storeDetailLoadingObserver = viewModel.storeDetailLoadingLiveData.testObserver()
+        viewModel.getStoreDetail(1001)
+        assertEquals(listOf(true, false), storeDetailLoadingObserver.observedValues)
+    }
+
+    @Test
+    fun shouldUpdateStoreDetailErrorLiveDataOnFailure() {
+        `when`(repository.getStoreDetail(
+                any(Int::class.java),
+        )).thenReturn(
+                Single.error(Throwable())
+        )
+
+        val storeDetailErrorObserver = viewModel.storeDetailErrorLiveData.testObserver()
+        viewModel.getStoreDetail(1001)
+        assertEquals(listOf(R.string.error_store_detail), storeDetailErrorObserver.observedValues)
+    }
+
+    @Test
+    fun shouldReturnCorrectStoreId() {
+        `when`(repository.getStoreFeed(
+                any(Double::class.java),
+                any(Double::class.java),
+                any(Int::class.java),
+                any(Int::class.java),
+        )).thenReturn(
+                Single.just(StoreFeed(mockedStores))
+        )
+
+        val testPosition = 5
+        viewModel.currentPosition = testPosition
+        viewModel.getStoreFeed(DEFAULT_LAT, DEFAULT_LNG, DEFAULT_OFFSET, DEFAULT_LIMIT)
+
+        assertEquals(mockedStores[testPosition].id, viewModel.getCurrentStoreId())
+    }
+
+    @Test
+    fun shouldReturnCorrectCurrentStore() {
+        `when`(repository.getStoreFeed(
+                any(Double::class.java),
+                any(Double::class.java),
+                any(Int::class.java),
+                any(Int::class.java),
+        )).thenReturn(
+                Single.just(StoreFeed(mockedStores))
+        )
+
+        val testPosition = 5
+        viewModel.currentPosition = testPosition
+        viewModel.getStoreFeed(DEFAULT_LAT, DEFAULT_LNG, DEFAULT_OFFSET, DEFAULT_LIMIT)
+
+        assertEquals(mockedStores[testPosition], viewModel.getCurrentStore())
     }
 }
